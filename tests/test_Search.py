@@ -3,10 +3,10 @@ from selenium.webdriver.common.by import By
 
 from pages.HomePage import HomePage
 from pages.SearchPage import SearchPage
+from tests.BaseTest import BaseTest
 
 
-@pytest.mark.usefixtures("setup_and_teardown")
-class TestSearch:
+class TestSearch(BaseTest):
 
     def test_search_with_valid_product(self):
         home_page = HomePage(self.driver)

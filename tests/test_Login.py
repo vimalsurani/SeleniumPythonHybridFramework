@@ -6,10 +6,10 @@ from selenium.webdriver.common.by import By
 from pages.AccountPage import AccountPage
 from pages.HomePage import HomePage
 from pages.LoginPage import LoginPage
+from tests.BaseTest import BaseTest
 
 
-@pytest.mark.usefixtures("setup_and_teardown")
-class TestLogin:
+class TestLogin(BaseTest):
 
     def test_with_valid_credentials(self):
         home_page = HomePage(self.driver)
