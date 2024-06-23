@@ -7,14 +7,16 @@ from pages.AccountPage import AccountPage
 from pages.HomePage import HomePage
 from pages.LoginPage import LoginPage
 from tests.BaseTest import BaseTest
+from utilities import ExcelUtils
 
 
 class TestLogin(BaseTest):
-
-    def test_with_valid_credentials(self):
+    @pytest.mark.parametrize("emai_address, password",
+                             ExcelUtils.get_data_from_excel("ExcelFiles/TutorialsNinja.xlsx", "LoginTest"))
+    def test_with_valid_credentials(self,emai_address,password):
         home_page = HomePage(self.driver)
         login_page = home_page.navigate_to_login_page()
-        account_page = login_page.login_to_application("vimalpatel7449@gmail.com", "Abc123456789")
+        account_page = login_page.login_to_application(emai_address,password)
         assert account_page.display_status_of_edit_your_account_information_option()
 
     def test_with_invalid_email_valid_password(self):

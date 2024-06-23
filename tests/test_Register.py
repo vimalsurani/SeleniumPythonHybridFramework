@@ -7,6 +7,7 @@ from pages.AccountSuccessPage import AccountSuccessPage
 from pages.HomePage import HomePage
 from pages.RegisterPage import RegisterPage
 from tests.BaseTest import BaseTest
+from utilities import ExcelUtils
 
 
 class TestRegister(BaseTest):
@@ -14,8 +15,12 @@ class TestRegister(BaseTest):
     def test_register_with_required_fields(self):
         home_page = HomePage(self.driver)
         register_page = home_page.navigate_to_register_page()
-        account_success_page = register_page.register_an_account("Vimal", "Patel", self.generate_email_with_timestamp(),
-                                                                 "1234567890", "123456", "123456", "no", "select")
+        account_success_page = register_page.register_an_account(
+            ExcelUtils.get_cell_data("ExcelFiles/TutorialsNinja.xlsx", "RegisterTest", 2, 1),
+            ExcelUtils.get_cell_data("ExcelFiles/TutorialsNinja.xlsx", "RegisterTest", 2, 2),
+            self.generate_email_with_timestamp(),
+            "1234567890",
+            "12345", "12345", "no", "select")
         expected_heading_text = "Your Account Has Been Created!"
         assert account_success_page.retrieve_account_creation_message().__eq__(expected_heading_text)
 
