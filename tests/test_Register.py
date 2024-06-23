@@ -6,10 +6,10 @@ from selenium.webdriver.common.by import By
 from pages.AccountSuccessPage import AccountSuccessPage
 from pages.HomePage import HomePage
 from pages.RegisterPage import RegisterPage
+from tests.BaseTest import BaseTest
 
 
-@pytest.mark.usefixtures("setup_and_teardown")
-class TestRegister:
+class TestRegister(BaseTest):
 
     def test_register_with_required_fields(self):
         home_page = HomePage(self.driver)

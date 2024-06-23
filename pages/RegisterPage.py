@@ -1,11 +1,10 @@
-from selenium.webdriver.common.by import By
-
 from pages.AccountSuccessPage import AccountSuccessPage
+from pages.BasePage import BasePage
 
 
-class RegisterPage:
+class RegisterPage(BasePage):
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
 
     first_name_textbox_id = "input-firstname"
     last_name_textbox_id = "input-lastname"
@@ -25,44 +24,33 @@ class RegisterPage:
     password_warning_xpath = "//input[@id='input-password']/following-sibling::div"
 
     def enter_first_name(self, first_name):
-        self.driver.find_element(By.ID, self.first_name_textbox_id).click()
-        self.driver.find_element(By.ID, self.first_name_textbox_id).clear()
-        self.driver.find_element(By.ID, self.first_name_textbox_id).send_keys(first_name)
+        self.type_into_element(first_name, "first_name_textbox_id", self.first_name_textbox_id)
 
     def enter_last_name(self, last_name):
-        self.driver.find_element(By.ID, self.last_name_textbox_id).click()
-        self.driver.find_element(By.ID, self.last_name_textbox_id).clear()
-        self.driver.find_element(By.ID, self.last_name_textbox_id).send_keys(last_name)
+        self.type_into_element(last_name, "last_name_textbox_id", self.last_name_textbox_id)
 
     def enter_register_email_address(self, email_address):
-        self.driver.find_element(By.ID, self.register_email_address_textbox_id).click()
-        self.driver.find_element(By.ID, self.register_email_address_textbox_id).clear()
-        self.driver.find_element(By.ID, self.register_email_address_textbox_id).send_keys(email_address)
+        self.type_into_element(email_address, "register_email_address_textbox_id",
+                               self.register_email_address_textbox_id)
 
     def enter_telephone_number(self, telephone):
-        self.driver.find_element(By.ID, self.telephone_textbox_id).click()
-        self.driver.find_element(By.ID, self.telephone_textbox_id).clear()
-        self.driver.find_element(By.ID, self.telephone_textbox_id).send_keys(telephone)
+        self.type_into_element(telephone, "self.telephone_textbox_id", self.telephone_textbox_id)
 
     def enter_register_password(self, password):
-        self.driver.find_element(By.ID, self.register_password_textbox_id).click()
-        self.driver.find_element(By.ID, self.register_password_textbox_id).clear()
-        self.driver.find_element(By.ID, self.register_password_textbox_id).send_keys(password)
+        self.type_into_element(password, "register_password_textbox_id", self.register_password_textbox_id)
 
     def enter_confirm_password(self, confirm_password):
-        self.driver.find_element(By.ID, self.confirm_password_textbox_id).click()
-        self.driver.find_element(By.ID, self.confirm_password_textbox_id).clear()
-        self.driver.find_element(By.ID, self.confirm_password_textbox_id).send_keys(confirm_password)
+        self.type_into_element(confirm_password, "confirm_password_textbox_id", self.confirm_password_textbox_id)
 
     def select_agree_checkbox(self):
-        self.driver.find_element(By.NAME, self.agree_checkbox_name).click()
+        self.element_click("agree_checkbox_name", self.agree_checkbox_name)
 
     def click_on_continue_button(self):
-        self.driver.find_element(By.XPATH, self.continue_button_xpath).click()
+        self.element_click("continue_button_xpath", self.continue_button_xpath)
         return AccountSuccessPage(self.driver)
 
     def select_yes_radio_button(self):
-        self.driver.find_element(By.XPATH, self.subscribe_yes_radio_button_xpath).click()
+        self.element_click("subscribe_yes_radio_button_xpath", self.subscribe_yes_radio_button_xpath)
 
     def register_an_account(self, first_name, last_name, email_address, telephone, password, confirm_password,
                             yes_or_no, privacy_policy):
@@ -79,25 +67,27 @@ class RegisterPage:
         return self.click_on_continue_button()
 
     def retrieve_duplicate_email_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.duplicate_email_warning_message_xpath).text
+        return self.retrieve_element_text("duplicate_email_warning_message_xpath",
+                                          self.duplicate_email_warning_message_xpath)
 
     def retrieve_agree_privacy_policy_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.agree_privacy_policy_warning_message_xpath).text
+        return self.retrieve_element_text("agree_privacy_policy_warning_message_xpath",
+                                          self.agree_privacy_policy_warning_message_xpath)
 
     def retrieve_first_name_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.first_name_warning_xpath).text
+        return self.retrieve_element_text("first_name_warning_xpath", self.first_name_warning_xpath)
 
     def retrieve_last_name_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.last_name_warning_xpath).text
+        return self.retrieve_element_text("last_name_warning_xpath", self.last_name_warning_xpath)
 
     def retrieve_email_address_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.email_address_warning_xpath).text
+        return self.retrieve_element_text("email_address_warning_xpath", self.email_address_warning_xpath)
 
     def retrieve_telephone_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.telephone_warning_xpath).text
+        return self.retrieve_element_text("telephone_warning_xpath", self.telephone_warning_xpath)
 
     def retrieve_password_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.password_warning_xpath).text
+        return self.retrieve_element_text("password_warning_xpath", self.password_warning_xpath)
 
     def verify_warning_message(self, expected_privacy_policy_warning_text, expected_first_name_warning_text,
                                expected_last_name_warning_text, expected_email_warning_text,
@@ -120,53 +110,3 @@ class RegisterPage:
                                 status = True
 
         return status
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

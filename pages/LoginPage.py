@@ -1,11 +1,11 @@
-from selenium.webdriver.common.by import By
 
 from pages.AccountPage import AccountPage
+from pages.BasePage import BasePage
 
 
-class LoginPage:
+class LoginPage(BasePage):
     def __init__(self, driver):
-        self.driver = driver
+        super().__init__(driver)
 
     email_address_textbox_id = "input-email"
     password_textbox_id = "input-password"
@@ -13,17 +13,13 @@ class LoginPage:
     warning_message_xpath = "//div[@id='account-login']/div[1]"
 
     def enter_email(self, email_address):
-        self.driver.find_element(By.ID, self.email_address_textbox_id).click()
-        self.driver.find_element(By.ID, self.email_address_textbox_id).clear()
-        self.driver.find_element(By.ID, self.email_address_textbox_id).send_keys(email_address)
+        self.type_into_element(email_address, "email_address_textbox_id", self.email_address_textbox_id)
 
     def enter_password(self, password):
-        self.driver.find_element(By.ID, self.password_textbox_id).click()
-        self.driver.find_element(By.ID, self.password_textbox_id).click()
-        self.driver.find_element(By.ID, self.password_textbox_id).send_keys(password)
+        self.type_into_element(password, "password_textbox_id", self.password_textbox_id)
 
     def click_on_login_button(self):
-        self.driver.find_element(By.XPATH, self.login_button_xpath).click()
+        self.element_click("login_button_xpath", self.login_button_xpath)
         return AccountPage(self.driver)
 
     def login_to_application(self, email_address, password):
@@ -32,4 +28,4 @@ class LoginPage:
         return self.click_on_login_button()
 
     def retrieve_warning_message(self):
-        return self.driver.find_element(By.XPATH, self.warning_message_xpath).text
+        return self.retrieve_element_text("warning_message_xpath", self.warning_message_xpath)
